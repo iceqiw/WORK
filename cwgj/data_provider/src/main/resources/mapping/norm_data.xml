@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cwgj.bigdata.api.data_provider.mapper.NormDataMapper">
+
+    <sql id="Base_Column_List">EVENT as eventName, DS as ds, COUNT_OUT as tv</sql>
+
+    <select id="selectSumByVO" resultType="com.cwgj.bigdata.api.data_provider.model.NormData" parameterType="com.cwgj.bigdata.api.data_provider.vo.NormDataVO">
+        select EVENT as eventName, sum(COUNT_OUT) as tv from NORM_BY_DAY
+        <trim prefix="where" prefixOverrides="and">
+            <if test="eventName != null">AND EVENT = #{eventName}</if>
+            <if test="startDs != null">AND DS &gt;= #{startDs}</if>
+            <if test="endDs != null">AND DS &lt;= #{endDs}</if>
+        </trim>
+        group by EVENT
+    </select>
+
+    <select id="selectListByVO" resultType="com.cwgj.bigdata.api.data_provider.model.NormData"  parameterType="com.cwgj.bigdata.api.data_provider.vo.NormDataVO">
+        select
+        <include refid="Base_Column_List"/>
+        from NORM_BY_DAY
+        <trim prefix="where" prefixOverrides="and">
+            <if test="eventName != null">AND EVENT = #{eventName}</if>
+            <if test="eventNames != null">
+                AND EVENT IN
+                <foreach item="item" collection="eventNames" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="startDs != null">AND DS &gt;= #{startDs}</if>
+            <if test="endDs != null">AND DS &lt;= #{endDs}</if>
+        </trim>
+    </select>
+
+
+</mapper>

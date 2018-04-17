@@ -1,0 +1,7 @@
+server:
+  port: @port@
+  context-path: /
+
+spring:
+    cache:
+        type: guava

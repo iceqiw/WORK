@@ -1,0 +1,86 @@
+{
+  "job": {
+    "setting": {
+      "speed": {
+        "channel": 1
+      }
+    },
+    "content": [
+      {
+        "reader": {
+          "name": "odpsreader",
+          "parameter": {
+            "accessId": "LTAIiINLHoKk8GCh",
+            "accessKey": "qjiLw1uSnxmsjIM0y3Fh9eRy3FAqSd",
+            "project": "api_logs_max",
+            "table": "operative_report",
+            "partition": [
+              "ds=$bizdate"
+            ],
+            "column": [
+              "parkid",
+              "parkname",
+              "cityid",
+              "cityname",
+              "parktype",
+              "totalparkspacenum",
+              "totalordernum",
+              "totalmonthlynum",
+              "totalnochargenum",
+              "totalchargenum",
+              "totalchargezero",
+              "totalofflinepayment",
+              "totalonlinepayment",
+              "onlinepaymentproportion",
+              "totalcarnum",
+              "totaluser",
+              "newuser",
+              "newmember",
+              "newmemberproportion",
+              "useractive",
+              "totalpush",
+              "datetime"
+            ],
+            "splitMode": "record",
+            "odpsServer": "http://service.odps.aliyun.com/api"
+          }
+        },
+        "writer": {
+          "name": "hbase11xsqlwriter",
+          "parameter": {
+            "batchSize": "256",
+            "column": [
+              "PARKID",
+              "PARKNAME",
+              "CITYID",
+              "CITYNAME",
+              "PARKTYPE",
+              "TOTALPARKSPACENUM",
+              "TOTALORDERNUM",
+              "TOTALMONTHLYNUM",
+              "TOTALNOCHARGENUM",
+              "TOTALCHARGENUM",
+              "TOTALCHARGEZERO",
+              "TOTALOFFLINEPAYMENT",
+              "TOTALONLINEPAYMENT",
+              "ONLINEPAYMENTPROPORTION",
+              "TOTALCARNUM",
+              "TOTALUSER",
+              "NEWUSER",
+              "NEWMEMBER",
+              "NEWMEMBERPROPORTION",
+              "USERACTIVE",
+              "TOTALPUSH",
+              "DATETIME"
+            ],
+            "hbaseConfig": {
+              "hbase.zookeeper.quorum": "hadoop-1"
+            },
+            "nullMode": "skip",
+            "table": "OPERATIVE_REPORT"
+          }
+        }
+      }
+    ]
+  }
+}

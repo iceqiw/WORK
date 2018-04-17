@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cwgj.bigdata.api.data_provider.mapper.CarInOutTotalMapper">
+
+  <select id="getCarInOutDetail" parameterType="com.cwgj.bigdata.api.data_provider.vo.DetailVO"
+    resultType="com.cwgj.bigdata.api.data_provider.model.CarInOutTotal">
+    select ds,
+    park_name as parkName,
+    city_name as cityName,
+    e_car_month_in as carMonthIn,
+    e_car_temp_in as carTempIn,
+    temp_car as tempCar
+    from car_inout_total
+    <trim prefix="where" prefixOverrides="and">
+      <if test="cityContainFlag eq 'pos'">
+        <if test="citys != null">
+          AND city_id IN
+          <foreach item="item" collection="citys" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="parkContainFlag eq 'pos'">
+        <if test="parks != null">
+          AND park_id IN
+          <foreach item="item" collection="parks" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="cityContainFlag eq 'nav'">
+        <if test="citys != null">
+          AND city_id NOT IN
+          <foreach item="item" collection="citys" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="parkContainFlag eq 'nav'">
+        <if test="parks != null">
+          AND park_id NOT IN
+          <foreach item="item" collection="parks" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="startDs != null">AND DS &gt;= #{startDs}</if>
+      <if test="endDs != null">AND DS &lt;= #{endDs}</if>
+    </trim>
+  </select>
+
+</mapper>

@@ -1,0 +1,11 @@
+server:
+  port: 2233
+
+spring:
+  application:
+    name: system-sms
+  cloud:
+    config:
+      uri: http://192.168.1.181:8888
+      profile: dev
+      label: master

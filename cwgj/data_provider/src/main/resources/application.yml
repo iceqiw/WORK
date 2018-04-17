@@ -1,0 +1,20 @@
+server:
+  port: @port@
+  context-path: /bigdata
+
+spring:
+    datasource:
+        name: test
+        url: @phoenix.jdbc.url@
+        username:
+        password:
+        driver-class-name: org.apache.phoenix.jdbc.PhoenixDriver
+        maxActive: 2
+        initialSize: 1
+    cache:
+        type: guava
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.cwgj.bigdata.api.data_provider.model
+  config-location: classpath:/mybatis-config.xml

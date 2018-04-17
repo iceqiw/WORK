@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cwgj.bigdata.api.data_provider.mapper.OpertiveReportMapper">
+
+  <select id="getReportDetail" parameterType="com.cwgj.bigdata.api.data_provider.vo.DetailVO"
+    resultType="com.cwgj.bigdata.api.data_provider.model.OpertiveReport">
+    select
+    parkid,
+    parkname,
+    cityid,
+    cityname,
+    parktype,
+    creattime,
+    totalparkspacenum,
+    totalordernum,
+    totalmonthlynum,
+    totalnochargenum,
+    totalchargenum,
+    totalchargezero,
+    totalofflinepayment,
+    totalonlinepayment,
+    onlinepaymentproportion,
+    totalcarnum,
+    totaluser,
+    newuser,
+    newmember,
+    newmemberproportion,
+    useractive,
+    totalpush,
+    actdate,
+    totalonlinemoney,
+    totalofflinemoney
+    from operative_report
+    <trim prefix="where" prefixOverrides="and">
+      <if test="cityContainFlag eq 'pos'">
+        <if test="citys != null">
+          AND cityid IN
+          <foreach item="item" collection="citys" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="parkContainFlag eq 'pos'">
+        <if test="parks != null">
+          AND parkid IN
+          <foreach item="item" collection="parks" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="cityContainFlag eq 'nav'">
+        <if test="citys != null">
+          AND cityid NOT IN
+          <foreach item="item" collection="citys" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="parkContainFlag eq 'nav'">
+        <if test="parks != null">
+          AND parkid NOT IN
+          <foreach item="item" collection="parks" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="startDs != null">AND actdate &gt;= #{startDs}</if>
+      <if test="endDs != null">AND actdate &lt;= #{endDs}</if>
+    </trim>
+  </select>
+
+
+
+  <select id="getReportDetailSum" parameterType="com.cwgj.bigdata.api.data_provider.vo.DetailVO"
+    resultType="com.cwgj.bigdata.api.data_provider.model.OpertiveReportSum">
+    select
+    parkid,
+    parkname,
+    cityid,
+    cityname,
+    parktype,
+    min(creattime) as creattime,
+    max(totalparkspacenum) as totalparkspacenum,
+    sum(totalordernum) as totalordernum,
+    sum(totalmonthlynum) as totalmonthlynum,
+    sum(totalnochargenum) as totalnochargenum,
+    sum(totalchargenum) as totalchargenum ,
+    sum(totalchargezero) as totalchargezero,
+    sum(totalofflinepayment) as totalofflinepayment,
+    sum(totalonlinepayment) as totalonlinepayment,
+    sum(onlinepaymentproportion) as onlinepaymentproportion,
+    sum(totalcarnum) as totalcarnum,
+    sum(totaluser) as totaluser,
+    sum(newuser) as newuser,
+    sum(newmember) as newmember,
+    sum(newmemberproportion) as newmemberproportion,
+    sum(useractive) as useractive,
+    sum(totalpush) as totalpush,
+    sum(totalonlinemoney) as totalonlinemoney,
+    sum(totalofflinemoney) as totalofflinemoney
+    from operative_report
+    <trim prefix="where" prefixOverrides="and">
+      <if test="cityContainFlag eq 'pos'">
+        <if test="citys != null">
+          AND cityid IN
+          <foreach item="item" collection="citys" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="parkContainFlag eq 'pos'">
+        <if test="parks != null">
+          AND parkid IN
+          <foreach item="item" collection="parks" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="cityContainFlag eq 'nav'">
+        <if test="citys != null">
+          AND cityid NOT IN
+          <foreach item="item" collection="citys" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="parkContainFlag eq 'nav'">
+        <if test="parks != null">
+          AND parkid NOT IN
+          <foreach item="item" collection="parks" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="startDs != null">AND actdate &gt;= #{startDs}</if>
+      <if test="endDs != null">AND actdate &lt;= #{endDs}</if>
+    </trim>
+    group by parkid,parkname,cityid,cityname,parktype
+  </select>
+
+
+
+  <select id="getReportAllSum" parameterType="com.cwgj.bigdata.api.data_provider.vo.DetailVO"
+    resultType="com.cwgj.bigdata.api.data_provider.model.OpertiveReportAllSum">
+    select
+    sum(totalordernum) as totalordernum,
+    sum(totalmonthlynum) as totalmonthlynum,
+    sum(totalnochargenum) as totalnochargenum,
+    sum(totalchargenum) as totalchargenum ,
+    sum(totalchargezero) as totalchargezero,
+    sum(totalofflinepayment) as totalofflinepayment,
+    sum(totalonlinepayment) as totalonlinepayment,
+    sum(onlinepaymentproportion) as onlinepaymentproportion,
+    sum(totalcarnum) as totalcarnum,
+    sum(totaluser) as totaluser,
+    sum(newuser) as newuser,
+    sum(newmember) as newmember,
+    sum(newmemberproportion) as newmemberproportion,
+    sum(useractive) as useractive,
+    sum(totalpush) as totalpush,
+    sum(totalonlinemoney) as totalonlinemoney,
+    sum(totalofflinemoney) as totalofflinemoney
+    from operative_report
+    <trim prefix="where" prefixOverrides="and">
+      <if test="cityContainFlag eq 'pos'">
+        <if test="citys != null">
+          AND cityid IN
+          <foreach item="item" collection="citys" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="parkContainFlag eq 'pos'">
+        <if test="parks != null">
+          AND parkid IN
+          <foreach item="item" collection="parks" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="cityContainFlag eq 'nav'">
+        <if test="citys != null">
+          AND cityid NOT IN
+          <foreach item="item" collection="citys" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="parkContainFlag eq 'nav'">
+        <if test="parks != null">
+          AND parkid NOT IN
+          <foreach item="item" collection="parks" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="startDs != null">AND actdate &gt;= #{startDs}</if>
+      <if test="endDs != null">AND actdate &lt;= #{endDs}</if>
+    </trim>
+  </select>
+
+</mapper>

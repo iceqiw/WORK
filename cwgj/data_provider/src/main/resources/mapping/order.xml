@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cwgj.bigdata.api.data_provider.mapper.OrderMapper">
+
+  <select id="selectList" parameterType="com.cwgj.bigdata.api.data_provider.vo.DetailVO"
+    resultType="com.cwgj.bigdata.api.data_provider.model.Order">
+    select ds,parkname as parkName,cityname as cityName,
+    SUM(CASE WHEN event = 'online_order_count' THEN count_out ELSE 0 END) AS onlineOrderCount,
+    SUM(CASE WHEN event = 'offline_order_count' THEN count_out ELSE 0 END) AS offlineOrderCount,
+    SUM(CASE WHEN event = 'online_order_amount' THEN count_out ELSE 0 END) AS onlineOrderAmount,
+    SUM(CASE WHEN event = 'offline_order_amount' THEN count_out ELSE 0 END) AS offlineOrderAmount
+    from NORM_BY_PARK_CITY_DAY
+    <trim prefix="where" prefixOverrides="and">
+      EVENT in ('offline_order_count','online_order_count','online_order_amount','offline_order_amount')
+      and parkname is NOT null
+      <if test="cityContainFlag eq 'pos'">
+        <if test="citys != null">
+          AND CITY IN
+          <foreach item="item" collection="citys" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="parkContainFlag eq 'pos'">
+        <if test="parks != null">
+          AND PARK IN
+          <foreach item="item" collection="parks" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="cityContainFlag eq 'nav'">
+        <if test="citys != null">
+          AND CITY NOT IN
+          <foreach item="item" collection="citys" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="parkContainFlag eq 'nav'">
+        <if test="parks != null">
+          AND PARK NOT IN
+          <foreach item="item" collection="parks" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </if>
+      <if test="startDs != null">AND DS &gt;= #{startDs}</if>
+      <if test="endDs != null">AND DS &lt;= #{endDs}</if>
+    </trim>
+    group by ds,park,city,parkname,cityname
+  </select>
+
+</mapper>

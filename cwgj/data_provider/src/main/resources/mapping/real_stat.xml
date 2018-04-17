@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cwgj.bigdata.api.data_provider.mapper.RealStatMapper">
+
+  <select id="allStat" parameterType="java.lang.String"
+    resultType="com.cwgj.bigdata.api.data_provider.model.RealStatData">
+    select statkey as statKey,statvalue as statValue from stat_data
+  </select>
+
+  <select id="allDayStat" parameterType="com.cwgj.bigdata.api.data_provider.vo.NormDataVO"
+    resultType="com.cwgj.bigdata.api.data_provider.model.RealDayStatData">
+    select statkey as statKey,statdate as statDate,statvalue as statValue from stat_day_data
+    <trim prefix="where" prefixOverrides="and">
+      <if test="startDs != null">AND statdate &gt;= #{startDs}</if>
+      <if test="endDs != null">AND statdate &lt;= #{endDs}</if>
+    </trim>
+  </select>
+
+</mapper>

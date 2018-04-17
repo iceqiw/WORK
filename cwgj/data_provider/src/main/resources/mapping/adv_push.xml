@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cwgj.bigdata.api.data_provider.mapper.AdvPushMapper">
+
+  <select id="getAdvDetail" parameterType="com.cwgj.bigdata.api.data_provider.vo.AdvVO"
+    resultType="com.cwgj.bigdata.api.data_provider.model.AdvDetail">
+    select adv_name as advName,push_type as pushType,adv_id as advId,push_id as
+    pushId,money,telephone, push_time as pushTime,read_time as readTime from adv_push
+    <trim prefix="where" prefixOverrides="and">
+      <if test="advId != null">AND adv_id = #{advId}</if>
+    </trim>
+  </select>
+
+  <select id="getAdvTotalPushType" parameterType="com.cwgj.bigdata.api.data_provider.vo.AdvVO"
+    resultType="com.cwgj.bigdata.api.data_provider.model.AdvAll">
+    select push_type as pushType,
+    count(push_id) as sendCount,
+    sum(money) as costMoney
+    from adv_push
+    <trim prefix="where" prefixOverrides="and">
+      <if test="advId != null">AND adv_id = #{advId}</if>
+      <if test="event eq 'event_read_adv'">
+        and is_read = '1'
+      </if>
+    </trim>
+    GROUP BY push_type
+  </select>
+
+  <select id="getAdvAllByAdvId" parameterType="com.cwgj.bigdata.api.data_provider.vo.AdvVO"
+    resultType="com.cwgj.bigdata.api.data_provider.model.AdvAll">
+    select count(push_id) as sendCount,
+    sum(money) as costMoney
+    from adv_push
+    <trim prefix="where" prefixOverrides="and">
+      <if test="advId != null">AND adv_id = #{advId}</if>
+      <if test="event eq 'event_read_adv'">
+        and is_read = '1'
+      </if>
+    </trim>
+  </select>
+
+  <select id="getAdvListGroupByDs" parameterType="com.cwgj.bigdata.api.data_provider.vo.AdvVO"
+    resultType="com.cwgj.bigdata.api.data_provider.model.AdvTotalByDs">
+    select substr(push_time,1,8) as ds,
+    count(push_id) AS pushCount,
+    SUM(CASE WHEN is_read = '1' THEN 1 ELSE 0 END) AS readCount,
+    SUM(money) AS pushCost
+    from adv_push
+    <trim prefix="where" prefixOverrides="and">
+      <if test="advId != null">AND adv_id = #{advId}</if>
+    </trim>
+    GROUP BY substr(push_time,1,8)
+  </select>
+
+</mapper>

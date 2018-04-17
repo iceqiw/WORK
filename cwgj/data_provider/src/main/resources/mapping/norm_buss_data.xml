@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cwgj.bigdata.api.data_provider.mapper.NormBussDataMapper">
+
+    <select id="selectSumByVO" resultType="com.cwgj.bigdata.api.data_provider.model.NormBussData" parameterType="com.cwgj.bigdata.api.data_provider.vo.NormDataVO">
+        select EVENT as eventName, sum(COUNT_OUT) as tv from NORM_BY_BID_CITY_DAY
+        <trim prefix="where" prefixOverrides="and">
+            <if test="eventName != null">AND EVENT = #{eventName}</if>
+            <if test="citys != null">
+                AND CITY IN
+                <foreach item="item" collection="citys" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="mers != null">
+                AND BID IN
+                <foreach item="item" collection="mers" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="startDs != null">AND DS &gt;= #{startDs}</if>
+            <if test="endDs != null">AND DS &lt;= #{endDs}</if>
+        </trim>
+        GROUP by EVENT
+    </select>
+
+    <select id="selectListByVO" resultType="com.cwgj.bigdata.api.data_provider.model.NormBussData"  parameterType="com.cwgj.bigdata.api.data_provider.vo.NormDataVO">
+        select EVENT as eventName, DS as ds, sum(COUNT_OUT) as tv from NORM_BY_BID_CITY_DAY
+        <trim prefix="where" prefixOverrides="and">
+            <if test="eventName != null">AND EVENT = #{eventName}</if>
+            <if test="citys != null">
+                AND CITY IN
+                <foreach item="item" collection="citys" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="mers != null">
+                AND BID IN
+                <foreach item="item" collection="mers" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="startDs != null">AND DS &gt;= #{startDs}</if>
+            <if test="endDs != null">AND DS &lt;= #{endDs}</if>
+        </trim>
+        GROUP by EVENT,DS
+    </select>
+
+
+    <select id="selectListDetailByVO" resultType="com.cwgj.bigdata.api.data_provider.model.NormBussData"  parameterType="com.cwgj.bigdata.api.data_provider.vo.NormDataVO">
+        select EVENT as eventName, DS as ds, cityname as cityName,bidname as bussName, COUNT_OUT as tv from NORM_BY_BID_CITY_DAY
+        <trim prefix="where" prefixOverrides="and">
+            <if test="eventNames != null">
+                AND EVENT IN
+                <foreach item="item" collection="eventNames" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="citys != null">
+                AND CITY IN
+                <foreach item="item" collection="citys" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="mers != null">
+                AND BID IN
+                <foreach item="item" collection="mers" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="startDs != null">AND DS &gt;= #{startDs}</if>
+            <if test="endDs != null">AND DS &lt;= #{endDs}</if>
+        </trim>
+    </select>
+
+
+</mapper>

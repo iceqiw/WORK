@@ -1,0 +1,21 @@
+server:
+  port: @port@
+
+spring:
+  application:
+    name: system-sms
+  redis:
+      host: @redis.host@
+      port: @redis.port@
+  datasource:
+    url: @mysql.jdbc.url@
+    username: @mysql.jdbc.username@
+    password: @mysql.jdbc.password@
+    driver-class-name: @driverclass@
+    maxActive: 2
+    initialSize: 1
+
+ali:
+  accessKeySecret: weGHu2K5Zvhrr5nHbxRH4VuJfAm1i1
+  accessKeyId: LTAIKetz7j8zUhxC
+  signName: 车位管家

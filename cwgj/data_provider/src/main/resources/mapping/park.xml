@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cwgj.bigdata.api.data_provider.mapper.ParkMapper">
+
+
+    <select id="groupByCity" resultType="com.cwgj.bigdata.api.data_provider.model.Park" >
+        select cityname as cityName, COUNT(1) as tv from PARK_ALL
+        where cityname is not null
+        group by cityname
+    </select>
+
+
+    <select id="getAll" resultType="java.lang.Long" >
+        select COUNT(1) as tv from PARK_ALL
+    </select>
+
+
+</mapper>

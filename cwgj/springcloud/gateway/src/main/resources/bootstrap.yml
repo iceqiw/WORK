@@ -1,0 +1,11 @@
+server:
+  port: 2222
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    config:
+      uri: http://192.168.1.181:8888
+      profile: dev
+      label: master
