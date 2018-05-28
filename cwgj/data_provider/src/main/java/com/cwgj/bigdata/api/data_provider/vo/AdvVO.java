@@ -12,4 +12,7 @@ public class AdvVO extends BaseVO {
   private String advId;
   private String event;
 
+  private Long start;
+  private int size;
+
 }

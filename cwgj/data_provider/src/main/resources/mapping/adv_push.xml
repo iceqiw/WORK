@@ -12,6 +12,27 @@
     </trim>
   </select>
 
+
+  <select id="getAdvDetailSize" parameterType="com.cwgj.bigdata.api.data_provider.vo.AdvVO"
+    resultType="com.cwgj.bigdata.api.data_provider.model.AdvDetail">
+    select adv_name as advName,push_type as pushType,adv_id as advId,push_id as
+    pushId,money,telephone, push_time as pushTime,read_time as readTime from adv_push
+    <trim prefix="where" prefixOverrides="and">
+      <if test="advId != null">AND adv_id = #{advId}</if>
+    </trim>
+    limit #{size} offset #{start}
+  </select>
+
+
+  <select id="getAdvDetailCount" parameterType="com.cwgj.bigdata.api.data_provider.vo.AdvVO"
+    resultType="java.lang.Long">
+    select count(1) from adv_push
+    <trim prefix="where" prefixOverrides="and">
+      <if test="advId != null">AND adv_id = #{advId}</if>
+    </trim>
+  </select>
+
+
   <select id="getAdvTotalPushType" parameterType="com.cwgj.bigdata.api.data_provider.vo.AdvVO"
     resultType="com.cwgj.bigdata.api.data_provider.model.AdvAll">
     select push_type as pushType,

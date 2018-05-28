@@ -16,4 +16,7 @@ public interface AdvPushMapper {
 
   List<AdvTotalByDs> getAdvListGroupByDs(AdvVO vo);
 
+  List<AdvDetail> getAdvDetailSize(AdvVO vo);
+
+  Long getAdvDetailCount(AdvVO vo);
 }

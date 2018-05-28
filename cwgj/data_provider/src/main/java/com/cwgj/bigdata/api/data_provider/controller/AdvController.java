@@ -9,6 +9,7 @@ import com.cwgj.bigdata.api.data_provider.vo.AdvVO;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,18 @@ public class AdvController {
   @ApiOperation(value = "根据类型获取广告数据，导出")
   public List<AdvDetail> getAdvDetail(@RequestBody AdvVO vo) {
     return advPushService.getAdvDetail(vo);
+  }
+
+  @PostMapping("/get_adv_detail_page")
+  @ApiOperation(value = "根据类型获取广告数据，分页版本，导出")
+  public List<AdvDetail> getAdvDetailBySize(@RequestBody AdvVO vo) {
+    return advPushService.getAdvDetailLimit(vo);
+  }
+
+  @PostMapping("/get_adv_detail_count")
+  @ApiOperation(value = "根据类型获取广告数据总数")
+  public Long getAdvDetailByCount(@RequestBody AdvVO vo) {
+    return advPushService.getAdvDetailCount(vo);
   }
 
   @PostMapping("/get_adv_all_advid")
