@@ -49,6 +49,7 @@
     from adv_push
     <trim prefix="where" prefixOverrides="and">
       <if test="advId != null">AND adv_id = #{advId}</if>
+      and push_time is not null
     </trim>
     GROUP BY substr(push_time,1,8)
   </select>
