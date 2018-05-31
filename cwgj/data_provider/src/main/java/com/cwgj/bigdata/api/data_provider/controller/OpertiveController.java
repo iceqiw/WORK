@@ -5,6 +5,7 @@ import com.cwgj.bigdata.api.data_provider.mapper.OpertiveReportMapper;
 import com.cwgj.bigdata.api.data_provider.model.OpertiveReport;
 import com.cwgj.bigdata.api.data_provider.model.OpertiveReportAllSum;
 import com.cwgj.bigdata.api.data_provider.model.OpertiveReportSum;
+import com.cwgj.bigdata.api.data_provider.vo.BaseVO;
 import com.cwgj.bigdata.api.data_provider.vo.DetailVO;
 import java.util.List;
 import javax.annotation.Resource;
@@ -37,7 +38,7 @@ public class OpertiveController {
   }
 
   @PostMapping("/total")
-  public OpertiveReportAllSum selectSumAllNoGroup() {
+  public OpertiveReportAllSum selectSumAllNoGroup(@RequestBody BaseVO vo) {
     return opertiveReportMapper.getAllSum();
   }
 }
