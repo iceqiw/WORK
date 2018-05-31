@@ -200,4 +200,12 @@
     </trim>
   </select>
 
+  <select id="getAllSum" parameterType="com.cwgj.bigdata.api.data_provider.vo.DetailVO"
+    resultType="com.cwgj.bigdata.api.data_provider.model.OpertiveReportAllSum">
+    select
+    sum(totalofflinepayment) as totalofflinepayment,
+    sum(totalonlinepayment) as totalonlinepayment
+    from operative_report
+  </select>
+
 </mapper>

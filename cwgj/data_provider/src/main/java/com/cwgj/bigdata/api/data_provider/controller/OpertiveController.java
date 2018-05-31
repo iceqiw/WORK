@@ -35,4 +35,9 @@ public class OpertiveController {
   public List<OpertiveReportAllSum> selectAllSum(@RequestBody DetailVO vo) {
     return opertiveReportMapper.getReportAllSum(vo);
   }
+
+  @PostMapping("/total")
+  public OpertiveReportAllSum selectSumAllNoGroup() {
+    return opertiveReportMapper.getAllSum();
+  }
 }

@@ -13,4 +13,6 @@ public interface OpertiveReportMapper {
   List<OpertiveReportSum> getReportDetailSum(DetailVO vo);
 
   List<OpertiveReportAllSum> getReportAllSum(DetailVO vo);
+
+  OpertiveReportAllSum getAllSum();
 }
